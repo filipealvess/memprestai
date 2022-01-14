@@ -7,6 +7,7 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     background-color: transparent;
+    color: ${({ theme }) => theme.colors.black};
     text-decoration: none;
     font-size: 1.6rem;
     font-family: ${({ theme }) => theme.fontFamily};
@@ -16,14 +17,6 @@ const GlobalStyle = createGlobalStyle`
   
   button {
     cursor: pointer;
-  }
-
-  a {
-    color: ${({ theme }) => theme.colors.blue};
-  }
-  
-  a:hover {
-    text-decoration: underline;
   }
   
   html { font-size: 10px; }
