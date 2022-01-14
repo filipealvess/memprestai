@@ -1,7 +1,6 @@
 import React from 'react';
+import AppRoutes from './routes';
 
 export default function App() {
-  return (
-    <h1>Memprestai</h1>
-  );
+  return <AppRoutes />;
 }
