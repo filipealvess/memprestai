@@ -26,7 +26,7 @@ export default function Header() {
 
           <NavLinks isVisible={menuIsVisible}>
             <NavLink route="/clientes">Clientes</NavLink>
-            <NavLink route="/">Filmes</NavLink>
+            <NavLink route="/filmes">Filmes</NavLink>
           </NavLinks>
         </Menu>
       </HeaderContent>
