@@ -8,6 +8,7 @@ const HeroWrapper = styled.section`
   justify-content: center;
   align-items: center;
   padding: 30px;
+  margin-bottom: 30px;
   border-radius: 5px;
   background: #FFFFFF url(${heroImage}) no-repeat center center;
   background-size: 100% auto;
