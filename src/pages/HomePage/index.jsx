@@ -4,6 +4,9 @@ import Header from '../../components/Header';
 import HeroSection from '../../components/HeroSection';
 import LeasesGrid from '../../components/LeasesGrid';
 import ContentWrapper from '../../components/_styled/ContentWrapper';
+import ClientsProvider from '../../context/ClientsContext';
+import LeasesProvider from '../../context/LeasesContext';
+import MoviesProvider from '../../context/MoviesContext';
 
 export default function HomePage() {
   const sortOptions = ['Ordenar por', 'Mais antigas', 'Mais recentes'];
@@ -11,19 +14,25 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      <Header />
-      
-      <ContentWrapper>
-        <HeroSection />
+      <LeasesProvider>
+        <ClientsProvider>
+          <MoviesProvider>
+            <Header />
+            
+            <ContentWrapper>
+              <HeroSection />
 
-        <DisplayControl
-          title="Todas as locações"
-          sortOptions={sortOptions}
-          filterOptions={filterOptions}
-        />
+              <DisplayControl
+                title="Todas as locações"
+                sortOptions={sortOptions}
+                filterOptions={filterOptions}
+              />
 
-        <LeasesGrid />
-      </ContentWrapper>
+              <LeasesGrid />
+            </ContentWrapper>
+          </MoviesProvider>
+        </ClientsProvider>
+      </LeasesProvider>
     </React.Fragment>
   );
 }
