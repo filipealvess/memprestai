@@ -9,19 +9,15 @@ import ListItemWrapper, {
   Title
 } from './styles';
 
-export default function ListItem() {
+export default function ListItem({ title, infos, alertInfo }) {
   return (
     <ListItemWrapper>
-      {/* TEMPORARY!!! */}
       <div>
-        <Title>Item de exemplo</Title>
-        <InfoItem>Informação: ???</InfoItem>
-        <InfoItem>Informação: ???</InfoItem>
+        <Title>{title}</Title>
+        {infos.map((info, index) => <InfoItem key={index}>{info}</InfoItem>)}
       </div>
 
-      <AlertInfo>
-        Alerta
-      </AlertInfo>
+      {alertInfo && <AlertInfo>{alertInfo}</AlertInfo>}
 
       <OptionsWrapper>
         <Option><Edit3 color={appTheme.colors.yellow} size="20" /></Option>

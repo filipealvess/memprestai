@@ -2,16 +2,17 @@ import React from 'react';
 import ListItem from '../ListItem';
 import ListWrapper from './styles';
 
-export default function List() {
+export default function List({ items }) {
   return (
     <ListWrapper>
-      {/* TEMPORARY!!! */}
-      <ListItem />
-      <ListItem />
-      <ListItem />
-      <ListItem />
-      <ListItem />
-      <ListItem />
+      {items.map(({id, title, infos, alertInfo}) => (
+        <ListItem
+          key={id}
+          title={title}
+          infos={infos}
+          alertInfo={alertInfo}
+        />
+      ))}
     </ListWrapper>
   );
 }
