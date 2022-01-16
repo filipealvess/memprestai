@@ -2,17 +2,16 @@ import React from 'react';
 import { Edit3, Trash } from 'react-feather';
 import LeaseGridItemWrapper, { Option, Options, OptionsDivider, Title } from './styles';
 
-export default function LeaseGridItem() {
+export default function LeaseGridItem({ start, end, movie, client }) {
   return (
     <LeaseGridItemWrapper>
-      {/* TEMPORARY!!! */}
       <Title>
-        De <span>???</span> até <span>???</span>
+        De <span>{start}</span> até <span>{end}</span>
       </Title>
 
-      <p>Filme: ???</p>
+      <p>Filme: {movie}</p>
 
-      <p>Cliente: ???</p>
+      <p>Cliente: {client}</p>
 
       <Options>
         <Option><Edit3 /></Option>
