@@ -192,7 +192,6 @@ export default function HomePage() {
       setSelectedMovie={setSelectedMovie}
       selectedMovie={selectedMovie}
       handleFormSubmit={handleFormSubmit}
-      formDrawerTitle={formDrawerTitle}
       sortOptions={sortOptions}
       filterOptions={filterOptions}
       handleUpdateLease={handleUpdateLease}

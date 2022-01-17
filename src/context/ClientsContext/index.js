@@ -8,10 +8,23 @@ export default function ClientsProvider({ children }) {
   const [clients, setClients] = useState([]);
 
   useEffect(async () => {
-    const savedClients = await axios(`${api.baseUrl}/clients`);
+    const localClients = JSON.parse(localStorage.getItem('memprestai_clients'));
+
+    if (localClients) {
+      setClients(localClients.map(client => {
+        client.visible = true;
+        return client;
+      }));
+    } else {
+      const savedClients = await axios(`${api.baseUrl}/clients`);
+      setClients(savedClients.data);
+    }
     
-    setClients(savedClients.data);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('memprestai_clients', JSON.stringify(clients));
+  }, [clients]);
 
   return (
     <ClientsContext.Provider

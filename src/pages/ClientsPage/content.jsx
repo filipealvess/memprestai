@@ -50,9 +50,14 @@ export default function ClientsPageContent() {
   }
 
   function deleteClient(clientId) {
-    const updatedClientList = clients.filter(client => client.ID_Cliente !== clientId);
+    const updatedClientList = localClients.filter(client => client.id !== clientId);
 
-    setClients(updatedClientList);
+    setClients(updatedClientList.map(({id, title, cpf, birthDate}) => ({
+      ID_Cliente: id,
+      Nome: title,
+      CPF: cpf,
+      Data_Nascimento: new Date(birthDate.split('/').reverse())
+    })));
   }
 
   function handleClientDelete(clientId) {
@@ -77,6 +82,7 @@ export default function ClientsPageContent() {
       id: biggerId + 1,
       title: clientName,
       birthDate: formatDate(clientBirthDate, 'd/m/y'),
+      cpf: clientCPF,
       infos: [
         `CPF: ${clientCPF}`,
         `Nascimento: ${formatDate(clientBirthDate, 'd/m/y')}`
@@ -85,7 +91,13 @@ export default function ClientsPageContent() {
       visible: true
     };
 
-    setLocalClients([newClient, ...localClients]);
+    const updatedClientList = [newClient, ...localClients];
+    setClients(updatedClientList.map(({id, title, cpf, birthDate}) => ({
+      ID_Cliente: id,
+      Nome: title,
+      CPF: cpf,
+      Data_Nascimento: new Date(birthDate.split('/').reverse())
+    })));
   }
 
   function updateClient() {
@@ -98,6 +110,7 @@ export default function ClientsPageContent() {
         `Nascimento: ${formatDate(clientBirthDate, 'd/m/y')}`
       ],
       alertInfo: '',
+      cpf: clientCPF,
       visible: true
     };
 
@@ -107,7 +120,12 @@ export default function ClientsPageContent() {
       }
     });
 
-    setLocalClients(localClients);
+    setClients(localClients.map(({id, title, cpf, birthDate}) => ({
+      ID_Cliente: id,
+      Nome: title,
+      CPF: cpf,
+      Data_Nascimento: new Date(birthDate.split('/').reverse())
+    })));
   }
 
   function handleClientUpdate(clientId) {
