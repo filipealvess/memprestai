@@ -94,9 +94,62 @@ const clientOptions = [
   }
 ];
 
+const movieOptions = [
+  {
+    option: 'Ordenar por',
+    action: (movies) => movies
+  },
+  {
+    option: 'Título',
+    action: (movies) => {
+      const result = [];
+
+      const titles = movies.reduce((movieTitles, movie) => {
+        movieTitles.push(movie.title);
+        return movieTitles;
+      }, []).sort();
+
+      titles.forEach(name => {
+        movies.forEach(movie => {
+          movie.title === name && result.push(movie);
+        });
+      });
+      
+      return result;
+    }
+  },
+  {
+    option: 'Classificação',
+    action: (movies) => {
+      const result = [];
+      const ratings = movies.map(({id, rating}) => ({id, rating}));
+
+      for (let last = 0; last < ratings.length; last++) {
+        for (let current = last + 1; current < ratings.length; current++) {
+          if (ratings[last].rating < ratings[current].rating) {
+            const temp = ratings[last];
+        
+            ratings[last] = ratings[current];
+            ratings[current] = temp;
+          }
+        }
+      }
+
+      ratings.forEach(({id}) => {
+        movies.forEach(movie => {
+          movie.id === id && result.push(movie);
+        });
+      });
+
+      return result;
+    }
+  }
+];
+
 const sortOptions = {
   leaseOptions,
-  clientOptions
+  clientOptions,
+  movieOptions
 };
 
 export default sortOptions;
