@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import filterOptions from '../../functions/filter';
 import sortOptions from '../../functions/sort';
 import HomePageContent from './content';
+import { formatDate } from '../../functions/format';
 
 export default function HomePage() {
   const [leases, setLeases] = useState([]);
@@ -91,12 +92,6 @@ export default function HomePage() {
     return clients.map(client => {
       return { option: client.title };
     })
-  }
-
-  function formatDate(date, format = 'y-m-d') {
-    return format === 'y-m-d'
-      ? date.split('/').reverse().join('-')
-      : date.split('-').reverse().join('/');
   }
 
   function addLease() {

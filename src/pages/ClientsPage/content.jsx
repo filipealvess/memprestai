@@ -12,6 +12,7 @@ import { useLeases } from '../../context/LeasesContext';
 import { clientsList } from '../../functions/conversion';
 import sortOptions from '../../functions/sort';
 import filterOptions from '../../functions/filter';
+import { formatDate, formatCPF } from '../../functions/format';
 
 export default function ClientsPageContent() {
   const { clients, setClients } = useClients();
@@ -68,22 +69,6 @@ export default function ClientsPageContent() {
     showFormDrawer();
   }
 
-  function formatDate(date, format = 'y-m-d') {
-    return format === 'y-m-d'
-      ? date.split('/').reverse().join('-')
-      : date.split('-').reverse().join('/');
-  }
-
-  function formatCPF(cpf) {
-    const formatedCPF = cpf.replace(/\D/g, '')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1-$2')
-      .replace(/(-\d{2})\d+?$/, '$1');
-      
-    setClientCPF(formatedCPF);
-  }
-
   function addClient() {
     const clientIds = localClients.map(client => client.id).sort((a, b) => a - b);
     const biggerId = clientIds[clientIds.length - 1];
@@ -135,6 +120,10 @@ export default function ClientsPageContent() {
     setSavedClientId(clientId);
     setFormDrawerTitle('Atualizar cliente');
     showFormDrawer();
+  }
+
+  function handleCpfChange(cpf) {
+    setClientCPF(formatCPF(cpf));
   }
 
   function hideDeletePopup() {
@@ -209,7 +198,7 @@ export default function ClientsPageContent() {
 
         <InputField
           label="CPF"
-          onChange={formatCPF}
+          onChange={handleCpfChange}
           value={clientCPF}
         />
 

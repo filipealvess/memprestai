@@ -51,10 +51,7 @@ const clientOptions = [
     action: (clients) => {
       const result = [];
 
-      const names = clients.reduce((clientNames, client) => {
-        clientNames.push(client.title);
-        return clientNames;
-      }, []).sort();
+      const names = clients.map(client => client.title).sort();
 
       names.forEach(name => {
         clients.forEach(client => {
