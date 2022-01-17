@@ -8,10 +8,19 @@ export default function LeasesProvider({ children }) {
   const [leases, setLeases] = useState([]);
 
   useEffect(async () => {
-    const savedLeases = await axios(`${api.baseUrl}/leases`);
-    
-    setLeases(savedLeases.data);
+    const localLeases = JSON.parse(localStorage.getItem('memprestai_leases'));
+
+    if (localLeases) {
+      setLeases(localLeases);
+    } else {
+      const savedLeases = await axios(`${api.baseUrl}/leases`);
+      setLeases(savedLeases.data);
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('memprestai_leases', JSON.stringify(leases));
+  }, [leases]);
 
   return (
     <LeasesContext.Provider

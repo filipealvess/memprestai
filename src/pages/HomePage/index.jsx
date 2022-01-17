@@ -19,6 +19,8 @@ export default function HomePage() {
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedMovie, setSelectedMovie] = useState('');
   const [leaseId, setLeaseId] = useState(null);
+  const [updatedLease, setUpdatedLease] = useState(null);
+  const [addedLease, setAddedLease] = useState(null);
 
   useEffect(() => {
     setClientOptionList(fillClientOptionList());
@@ -102,11 +104,10 @@ export default function HomePage() {
       client: selectedClient,
       movie: selectedMovie,
       start: formatDate(leaseDate, 'd/m/y'),
-      end: formatDate(returnDate, 'd/m/y'),
-      visible: true
+      end: formatDate(returnDate, 'd/m/y')
     };
 
-    setLeases([newLease, ...leases]);
+    setAddedLease(newLease);
   }
 
   function updateLease() {
@@ -118,13 +119,7 @@ export default function HomePage() {
       end: formatDate(returnDate, 'd/m/y'),
     };
 
-    leases.forEach((lease, index) => {
-      if (lease.id === leaseId) {
-        leases[index] = updatedLease;
-      }
-    });
-
-    setLeases(leases);
+    setUpdatedLease(updatedLease);
   }
 
   function handleUpdateLease(leaseId) {
@@ -146,6 +141,7 @@ export default function HomePage() {
     } else if (formDrawerTitle === 'Atualizar locação') {
       updateLease();
     }
+    
     closeFormDrawer();
   }
 
@@ -196,6 +192,8 @@ export default function HomePage() {
       filterOptions={filterOptions}
       handleUpdateLease={handleUpdateLease}
       showFormDrawer={showFormDrawer}
+      updatedLease={updatedLease}
+      addedLease={addedLease}
     />
   );
 }

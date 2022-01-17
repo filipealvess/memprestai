@@ -5,6 +5,7 @@ import { useLeases } from '../../context/LeasesContext';
 import { clientsList, leasesList, moviesList } from '../../functions/conversion';
 import { useClients } from '../../context/ClientsContext';
 import { useMovies } from '../../context/MoviesContext';
+import { findClientId, findMovieId } from '../../functions/find';
 
 export default function LeasesGrid({
   manipulatedLeases,
@@ -12,7 +13,9 @@ export default function LeasesGrid({
   updateClients,
   updateMovies,
   showDeletePopup,
-  handleUpdateLease
+  handleUpdateLease,
+  updatedLease,
+  addedLease
 }) {
   const { leases, setLeases } = useLeases();
   const { clients } = useClients();
@@ -24,6 +27,39 @@ export default function LeasesGrid({
       setLocalLeases(manipulatedLeases);
     }
   }, [manipulatedLeases]);
+
+  useEffect(() => {
+    if (updatedLease) {
+      setLeases(leases.map(lease => {
+        if (lease.ID_Locacao === updatedLease.id) {
+          return {
+            ID_Locacao: updatedLease.id,
+            ID_Cliente: findClientId(updatedLease.client, clients),
+            Id_Filme: findMovieId(updatedLease.movie, movies),
+            Data_Locacao: new Date(updatedLease.start.split('/').reverse()),
+            Data_Devolucao: new Date(updatedLease.end.split('/').reverse())
+          };
+        } else {
+          return lease;
+        }
+      }));
+    }
+  }, [updatedLease]);
+
+  useEffect(() => {
+    if (addedLease) {
+      setLeases([
+        {
+          ID_Locacao: addedLease.id,
+          ID_Cliente: findClientId(addedLease.client, clients),
+          Id_Filme: findMovieId(addedLease.movie, movies),
+          Data_Locacao: new Date(addedLease.start.split('/').reverse()),
+          Data_Devolucao: new Date(addedLease.end.split('/').reverse())
+        },
+        ...leases
+      ]);
+    }
+  }, [addedLease]);
 
   useEffect(() => {
     updateLeases(leasesList(leases, clients, movies));

@@ -41,7 +41,9 @@ export default function HomePageContent({
   sortOptions,
   filterOptions,
   showFormDrawer,
-  handleUpdateLease
+  handleUpdateLease,
+  updatedLease,
+  addedLease
 }) {
   return (
     <React.Fragment>
@@ -68,6 +70,8 @@ export default function HomePageContent({
                 updateMovies={updateMovies}
                 showDeletePopup={handleDeleteLease}
                 handleUpdateLease={handleUpdateLease}
+                updatedLease={updatedLease}
+                addedLease={addedLease}
               />
             </ContentWrapper>
 
