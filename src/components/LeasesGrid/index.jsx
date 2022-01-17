@@ -22,6 +22,11 @@ export default function LeasesGrid({ manipulatedLeases, updateLeases }) {
     updateLeases(leasesList(leases, clients, movies));
   }, [leases]);
 
+  function deleteLease(leaseId) {
+    const updatedLeaseList = leases.filter(lease => lease.ID_Locacao !== leaseId);
+    setLeases(updatedLeaseList);
+  }
+
   return (
     <LeasesGridWrapper>
       {
@@ -33,6 +38,7 @@ export default function LeasesGrid({ manipulatedLeases, updateLeases }) {
             start={start}
             end={end}
             visible={visible}
+            onDelete={() => deleteLease(id)}
           />
         ))
       }

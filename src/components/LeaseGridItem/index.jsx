@@ -8,7 +8,14 @@ import LeaseGridItemWrapper, {
   Title
 } from './styles';
 
-export default function LeaseGridItem({ start, end, movie, client, visible }) {
+export default function LeaseGridItem({
+  start,
+  end,
+  movie,
+  client,
+  visible,
+  onDelete
+}) {
   return (
     <LeaseGridItemWrapper visible={visible}>
       <Title>
@@ -23,7 +30,7 @@ export default function LeaseGridItem({ start, end, movie, client, visible }) {
       <Options>
         <Option><Edit3 /></Option>
         <OptionsDivider />
-        <Option><Trash /></Option>
+        <Option onClick={onDelete}><Trash /></Option>
       </Options>
     </LeaseGridItemWrapper>
   );
