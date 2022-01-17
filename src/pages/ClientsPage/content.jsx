@@ -36,6 +36,12 @@ export default function ClientsPageContent() {
     });
   }
 
+  function deleteClient(clientId) {
+    const updatedClientList = clients.filter(client => client.ID_Cliente !== clientId);
+
+    setClients(updatedClientList);
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -50,7 +56,10 @@ export default function ClientsPageContent() {
           sortFunction={sortClients}
         />
 
-        <List items={localClients} />
+        <List
+          items={localClients}
+          onDelete={deleteClient}
+        />
       </ContentWrapper>
     </React.Fragment>
   );
