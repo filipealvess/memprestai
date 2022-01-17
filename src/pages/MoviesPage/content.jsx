@@ -72,21 +72,54 @@ export default function MoviesPageContent() {
       title: movieTitle,
       parentalRating: movieRating,
       alertInfo: movieReleased ? '' : 'Ainda não foi lançado',
-      infos: [`Classificação: ${movieRating}`]
+      infos: [`Classificação: ${movieRating}`],
+      visible: true
+    };
+    
+    setLocalMovies([newMovie, ...localMovies]);
+  }
+  
+  function updateMovie() {
+    const updatedMovie = {
+      id: savedMovieId,
+      title: movieTitle,
+      alertInfo: movieReleased ? '' : 'Ainda não foi lançado',
+      infos: [`Classificação: ${movieRating}`],
+      visible: true
     };
 
-    setLocalMovies([newMovie, ...localMovies]);
+    localMovies.forEach((movie, index) => {
+      if (movie.id === savedMovieId) {
+        localMovies[index] = updatedMovie;
+      }
+    });
+
+    setLocalMovies(localMovies);
   }
 
   function handleFormSubmit() {
     if (formDrawerTitle === 'Adicionar filme') {
       addMovie();
+    } else if (formDrawerTitle === 'Atualizar filme') {
+      updateMovie();
     }
 
     hideFormDrawer();
   }
 
   function handleMovieAdd() {
+    showFormDrawer();
+  }
+
+  function handleUpdateMovie(movieId) {
+    const foundMovie = localMovies.filter(({id}) => movieId === id)[0];
+    const { title, parentalRating, alertInfo } = foundMovie;
+
+    setMovieRating(parentalRating);
+    setMovieReleased(alertInfo === '');
+    setMovieTitle(title);
+    setSavedMovieId(movieId);
+    setFormDrawerTitle('Atualizar filme');
     showFormDrawer();
   }
 
@@ -129,6 +162,7 @@ export default function MoviesPageContent() {
         <List
           items={localMovies}
           onDelete={handleDeleteMovie}
+          onUpdate={handleUpdateMovie}
         />
       </ContentWrapper>
 
