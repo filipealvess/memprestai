@@ -24,6 +24,7 @@ export default function ClientsPageContent() {
   const [ clientName, setClientName ] = useState('');
   const [ clientCPF, setClientCPF ] = useState('');
   const [ clientBirthDate, setClientBirthDate ] = useState('');
+  const [ savedClientId, setSavedClientId ] = useState(null);
 
   useEffect(() => {
     if (clients.length > 0) {
@@ -102,6 +103,40 @@ export default function ClientsPageContent() {
     setLocalClients([newClient, ...localClients]);
   }
 
+  function updateClient() {
+    const updatedClient = {
+      id: savedClientId,
+      title: clientName,
+      birthDate: formatDate(clientBirthDate, 'd/m/y'),
+      infos: [
+        `CPF: ${clientCPF}`,
+        `Nascimento: ${formatDate(clientBirthDate, 'd/m/y')}`
+      ],
+      alertInfo: '',
+      visible: true
+    };
+
+    localClients.forEach((client, index) => {
+      if (client.id === savedClientId) {
+        localClients[index] = updatedClient;
+      }
+    });
+
+    setLocalClients(localClients);
+  }
+
+  function handleClientUpdate(clientId) {
+    const foundClient = localClients.filter(({id}) => clientId === id)[0];
+    const { title, birthDate, cpf } = foundClient;
+
+    setClientBirthDate(formatDate(birthDate));
+    setClientCPF(cpf);
+    setClientName(title);
+    setSavedClientId(clientId);
+    setFormDrawerTitle('Atualizar cliente');
+    showFormDrawer();
+  }
+
   function hideDeletePopup() {
     setDeletePopupIsVisible(false);
   }
@@ -125,6 +160,8 @@ export default function ClientsPageContent() {
   function handleFormSubmit() {
     if (formDrawerTitle === 'Adicionar cliente') {
       addClient();
+    } else if (formDrawerTitle === 'Atualizar cliente') {
+      updateClient();
     }
 
     hideFormDrawer();
@@ -148,7 +185,7 @@ export default function ClientsPageContent() {
         <List
           items={localClients}
           onDelete={handleClientDelete}
-          onUpdate={() => {}}
+          onUpdate={handleClientUpdate}
         />
       </ContentWrapper>
 
