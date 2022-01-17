@@ -17,6 +17,7 @@ export default function HomePage() {
   const [returnDate, setReturnDate] = useState('');
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedMovie, setSelectedMovie] = useState('');
+  const [leaseId, setLeaseId] = useState(null);
 
   useEffect(() => {
     setClientOptionList(fillClientOptionList());
@@ -92,23 +93,64 @@ export default function HomePage() {
     })
   }
 
-  function formatDate(date) {
-    return date.split('-').reverse().join('/');
+  function formatDate(date, format = 'y-m-d') {
+    return format === 'y-m-d'
+      ? date.split('/').reverse().join('-')
+      : date.split('-').reverse().join('/');
   }
 
-  function handleFormSubmit() {
+  function addLease() {
     const leaseIds = leases.map(lease => lease.id).sort((a, b) => a - b);
     const biggerId = leaseIds[leaseIds.length - 1];
     const newLease = {
       id: biggerId + 1,
       client: selectedClient,
       movie: selectedMovie,
-      start: formatDate(leaseDate),
-      end: formatDate(returnDate),
+      start: formatDate(leaseDate, 'd/m/y'),
+      end: formatDate(returnDate, 'd/m/y'),
       visible: true
     };
 
     setLeases([newLease, ...leases]);
+  }
+
+  function updateLease() {
+    const updatedLease = {
+      id: leaseId,
+      client: selectedClient,
+      movie: selectedMovie,
+      start: formatDate(leaseDate, 'd/m/y'),
+      end: formatDate(returnDate, 'd/m/y'),
+    };
+
+    leases.forEach((lease, index) => {
+      if (lease.id === leaseId) {
+        leases[index] = updatedLease;
+      }
+    });
+
+    setLeases(leases);
+  }
+
+  function handleUpdateLease(leaseId) {
+    const foundLease = leases.filter(lease => lease.id === leaseId)[0];
+    const { client, movie, start, end } = foundLease;
+
+    setSelectedClient(client);
+    setSelectedMovie(movie);
+    setLeaseId(leaseId);
+    setLeaseDate(formatDate(start));
+    setReturnDate(formatDate(end));
+    setFormDrawerTitle('Atualizar locação');
+    showFormDrawer();
+  }
+
+  function handleFormSubmit() {
+    if (formDrawerTitle === 'Criar locação') {
+      addLease();
+    } else if (formDrawerTitle === 'Atualizar locação') {
+      updateLease();
+    }
     closeFormDrawer();
   }
 
@@ -125,9 +167,12 @@ export default function HomePage() {
     setFormDrawerIsVisible(false);
   }
 
+  function showFormDrawer() {
+    setFormDrawerIsVisible(true);
+  }
+
   return (
     <HomePageContent
-      setFormDrawerIsVisible={setFormDrawerIsVisible}
       filterLeases={filterLeases}
       sortLeases={sortLeases}
       leases={leases}
@@ -155,6 +200,8 @@ export default function HomePage() {
       formDrawerTitle={formDrawerTitle}
       sortOptions={sortOptions}
       filterOptions={filterOptions}
+      handleUpdateLease={handleUpdateLease}
+      showFormDrawer={showFormDrawer}
     />
   );
 }

@@ -14,7 +14,8 @@ export default function LeaseGridItem({
   movie,
   client,
   visible,
-  onDelete
+  onDelete,
+  onUpdate
 }) {
   return (
     <LeaseGridItemWrapper visible={visible}>
@@ -28,7 +29,7 @@ export default function LeaseGridItem({
       </Infos>
 
       <Options>
-        <Option><Edit3 /></Option>
+        <Option onClick={onUpdate}><Edit3 /></Option>
         <OptionsDivider />
         <Option onClick={onDelete}><Trash /></Option>
       </Options>

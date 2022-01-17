@@ -11,7 +11,8 @@ export default function LeasesGrid({
   updateLeases,
   updateClients,
   updateMovies,
-  showPopup
+  showDeletePopup,
+  handleUpdateLease
 }) {
   const { leases, setLeases } = useLeases();
   const { clients } = useClients();
@@ -42,7 +43,7 @@ export default function LeasesGrid({
   }
 
   function handleDeleteLease(leaseId) {
-    showPopup(() => deleteLease(leaseId));
+    showDeletePopup(() => deleteLease(leaseId));
   }
 
   return (
@@ -57,6 +58,7 @@ export default function LeasesGrid({
             end={end}
             visible={visible}
             onDelete={() => handleDeleteLease(id)}
+            onUpdate={() => handleUpdateLease(id)}
           />
         ))
       }

@@ -14,7 +14,6 @@ import LeasesProvider from '../../context/LeasesContext';
 import MoviesProvider from '../../context/MoviesContext';
 
 export default function HomePageContent({
-  setFormDrawerIsVisible,
   filterLeases,
   sortLeases,
   leases,
@@ -40,7 +39,9 @@ export default function HomePageContent({
   handleFormSubmit,
   formDrawerTitle,
   sortOptions,
-  filterOptions
+  filterOptions,
+  showFormDrawer,
+  handleUpdateLease
 }) {
   return (
     <React.Fragment>
@@ -50,7 +51,7 @@ export default function HomePageContent({
             <Header />
             
             <ContentWrapper>
-              <HeroSection onClick={() => setFormDrawerIsVisible(true)} />
+              <HeroSection onClick={showFormDrawer} />
 
               <DisplayControl
                 title="Todas as locações"
@@ -65,7 +66,8 @@ export default function HomePageContent({
                 updateLeases={updateLeases}
                 updateClients={updateClients}
                 updateMovies={updateMovies}
-                showPopup={handleDeleteLease}
+                showDeletePopup={handleDeleteLease}
+                handleUpdateLease={handleUpdateLease}
               />
             </ContentWrapper>
 
