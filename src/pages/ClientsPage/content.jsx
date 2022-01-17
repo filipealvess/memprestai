@@ -3,6 +3,7 @@ import ContentWrapper from '../../components/_styled/ContentWrapper';
 import Header from '../../components/Header';
 import DisplayControl from '../../components/DisplayControl';
 import List from '../../components/List';
+import DeletePopup from '../../components/DeletePopup';
 import { useClients } from '../../context/ClientsContext';
 import { useLeases } from '../../context/LeasesContext';
 import { clientsList } from '../../functions/conversion';
@@ -13,6 +14,8 @@ export default function ClientsPageContent() {
   const { clients, setClients } = useClients();
   const { leases } = useLeases();
   const [ localClients, setLocalClients ] = useState([]);
+  const [ deletePopupIsVisible, setDeletePopupIsVisible ] = useState(false);
+  const [ deleteFunction, setDeleteFunction ] = useState(null);
 
   useEffect(() => {
     if (clients.length > 0) {
@@ -42,6 +45,20 @@ export default function ClientsPageContent() {
     setClients(updatedClientList);
   }
 
+  function handleDeleteClient(clientId) {
+    const newDeleteFunction = () => {
+      hideDeletePopup();
+      deleteClient(clientId);
+    };
+
+    setDeletePopupIsVisible(true);
+    setDeleteFunction(() => newDeleteFunction);
+  }
+
+  function hideDeletePopup() {
+    setDeletePopupIsVisible(false);
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -58,9 +75,16 @@ export default function ClientsPageContent() {
 
         <List
           items={localClients}
-          onDelete={deleteClient}
+          onDelete={handleDeleteClient}
         />
       </ContentWrapper>
+
+      <DeletePopup
+        visible={deletePopupIsVisible}
+        message="Tem certeza que deseja excluir permanentemente esse cliente?"
+        cancelFunction={hideDeletePopup}
+        deleteFunction={deleteFunction}
+      />
     </React.Fragment>
   );
 }
