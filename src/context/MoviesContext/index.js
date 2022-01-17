@@ -8,10 +8,19 @@ export default function MoviesProvider({ children }) {
   const [movies, setMovies] = useState([]);
 
   useEffect(async () => {
-    const savedMovies = await axios(`${api.baseUrl}/movies`);
-    
-    setMovies(savedMovies.data);
+    const localMovies = JSON.parse(localStorage.getItem('memprestai_movies'));
+
+    if (localMovies) {
+      setMovies(localMovies);
+    } else {
+      const savedMovies = await axios(`${api.baseUrl}/movies`);
+      setMovies(savedMovies.data);
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('memprestai_movies', JSON.stringify(movies));
+  }, [movies]);
 
   return (
     <MoviesContext.Provider

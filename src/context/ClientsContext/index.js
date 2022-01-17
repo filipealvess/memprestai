@@ -11,15 +11,11 @@ export default function ClientsProvider({ children }) {
     const localClients = JSON.parse(localStorage.getItem('memprestai_clients'));
 
     if (localClients) {
-      setClients(localClients.map(client => {
-        client.visible = true;
-        return client;
-      }));
+      setClients(localClients);
     } else {
       const savedClients = await axios(`${api.baseUrl}/clients`);
       setClients(savedClients.data);
     }
-    
   }, []);
 
   useEffect(() => {

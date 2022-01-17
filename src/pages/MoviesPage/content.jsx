@@ -48,9 +48,14 @@ export default function MoviesPageContent() {
   }
 
   function deleteMovie(movieId) {
-    const updatedMovieList = movies.filter(movie => movie.Id !== movieId);
+    const updatedMovieList = localMovies.filter(movie => movie.id !== movieId);
 
-    setMovies(updatedMovieList);
+    setMovies(updatedMovieList.map(({id, title, parentalRating, alertInfo}) => ({
+      Id: id,
+      Titulo: title,
+      Classificacao_Indicativa: parentalRating,
+      Lancamento: alertInfo === '' ? 1 : 0
+    })));
   }
 
   function handleDeleteMovie(movieId) {
@@ -76,7 +81,14 @@ export default function MoviesPageContent() {
       visible: true
     };
     
-    setLocalMovies([newMovie, ...localMovies]);
+    const updatedMovieList = [newMovie, ...localMovies];
+
+    setMovies(updatedMovieList.map(({id, title, parentalRating, alertInfo}) => ({
+      Id: id,
+      Titulo: title,
+      Classificacao_Indicativa: parentalRating,
+      Lancamento: alertInfo === '' ? 1 : 0
+    })));
   }
   
   function updateMovie() {
@@ -85,6 +97,7 @@ export default function MoviesPageContent() {
       title: movieTitle,
       alertInfo: movieReleased ? '' : 'Ainda não foi lançado',
       infos: [`Classificação: ${movieRating}`],
+      parentalRating: movieRating,
       visible: true
     };
 
@@ -94,7 +107,12 @@ export default function MoviesPageContent() {
       }
     });
 
-    setLocalMovies(localMovies);
+    setMovies(localMovies.map(({id, title, parentalRating, alertInfo}) => ({
+      Id: id,
+      Titulo: title,
+      Classificacao_Indicativa: parentalRating,
+      Lancamento: alertInfo === '' ? 1 : 0
+    })));
   }
 
   function handleFormSubmit() {
