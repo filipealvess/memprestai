@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import DropdownWrapper from '../Dropdown/styles';
 
 const DisplayControlWrapper = styled.section`
   display: flex;
@@ -23,22 +22,18 @@ export const DisplayControlTitle = styled.h2`
   `;
 
 export const DropdownsWrapper = styled.section`
+  display: flex;
+  gap: 10px;
+  
   @media (max-width: 600px) {
-    display: flex;
     width: 100%;
     margin-top: 20px;
 
-    & ${DropdownWrapper} {
-      flex-grow: 1;
-    }
+    & > * { width: 100%; }
   }
   
   @media (max-width: 400px) {
     flex-direction: column;
-    
-    & ${DropdownWrapper} + ${DropdownWrapper} {
-      margin: 10px 0 0;
-    }
   }
 `;
 
