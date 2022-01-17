@@ -29,7 +29,7 @@ export default function FormDrawer({ title, children, visible, close }) {
           <Close onClick={close}><XCircle /></Close>
         </Header>
 
-        <Fields>
+        <Fields onSubmit={event => event.preventDefault()}>
           {children}
         </Fields>
       </FormDrawerContent>

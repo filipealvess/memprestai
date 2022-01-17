@@ -38,7 +38,7 @@ export const Close = styled.button`
   padding: 5px;
 `;
 
-export const Fields = styled.section`
+export const Fields = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;

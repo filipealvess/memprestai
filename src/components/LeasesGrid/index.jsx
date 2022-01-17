@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react';
 import LeasesGridWrapper from './styles';
 import LeaseGridItem from '../LeaseGridItem';
 import { useLeases } from '../../context/LeasesContext';
-import { leasesList } from '../../functions/conversion';
+import { clientsList, leasesList, moviesList } from '../../functions/conversion';
 import { useClients } from '../../context/ClientsContext';
 import { useMovies } from '../../context/MoviesContext';
 
-export default function LeasesGrid({ manipulatedLeases, updateLeases, showPopup }) {
+export default function LeasesGrid({
+  manipulatedLeases,
+  updateLeases,
+  updateClients,
+  updateMovies,
+  showPopup
+}) {
   const { leases, setLeases } = useLeases();
   const { clients } = useClients();
   const { movies } = useMovies();
@@ -21,6 +27,14 @@ export default function LeasesGrid({ manipulatedLeases, updateLeases, showPopup 
   useEffect(() => {
     updateLeases(leasesList(leases, clients, movies));
   }, [leases]);
+
+  useEffect(() => {
+    updateClients(clientsList(clients));
+  }, [clients]);
+
+  useEffect(() => {
+    updateMovies(moviesList(movies));
+  }, [movies]);
 
   function deleteLease(leaseId) {
     const updatedLeaseList = leases.filter(lease => lease.ID_Locacao !== leaseId);
