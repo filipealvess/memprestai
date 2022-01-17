@@ -1,9 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const LeaseGridItemWrapper = styled.article`
   padding: 15px;
   border-radius: 5px;
   background-color: ${({ theme }) => theme.colors.white};
+
+  ${({ visible }) => visible === false && css`display: none;`}
 `;
 
 export const Title = styled.p`

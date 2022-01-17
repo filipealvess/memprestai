@@ -55,7 +55,8 @@ export function leasesList(leases, clients, movies) {
       client: findClientName(ID_Cliente, clients),
       movie: findMovieTitle(Id_Filme, movies),
       start: formatDate(Data_Locacao),
-      end: formatDate(Data_Devolucao)
+      end: formatDate(Data_Devolucao),
+      visible: true
     };
   });
 }

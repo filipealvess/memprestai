@@ -1,12 +1,21 @@
 import React from 'react';
 import DropdownWrapper from './styles';
 
-export default function Dropdown({ options }) {
+export default function Dropdown({ options, onChange }) {
+  function handleOptionSelect({ target }) {
+    onChange(target.value);
+  }
+
   return (
-    <DropdownWrapper>
+    <DropdownWrapper onInput={handleOptionSelect}>
       {
-        options.map((optionText, index) => (
-          <option key={index}>{optionText}</option>
+        options.map(({ option }, index) => (
+          <option
+            key={index}
+            value={option}
+          >
+            {option}
+          </option>
         ))
       }
     </DropdownWrapper>

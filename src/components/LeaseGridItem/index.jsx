@@ -2,9 +2,9 @@ import React from 'react';
 import { Edit3, Trash } from 'react-feather';
 import LeaseGridItemWrapper, { Option, Options, OptionsDivider, Title } from './styles';
 
-export default function LeaseGridItem({ start, end, movie, client }) {
+export default function LeaseGridItem({ start, end, movie, client, visible }) {
   return (
-    <LeaseGridItemWrapper>
+    <LeaseGridItemWrapper visible={visible}>
       <Title>
         De <span>{start}</span> até <span>{end}</span>
       </Title>

@@ -3,9 +3,14 @@ import AddButton from '../AddButton';
 import Dropdown from '../Dropdown';
 import DisplayControlWrapper, { DisplayControlTitle, DropdownsWrapper } from './styles';
 
-export default function DisplayControl(props) {
-  const { title, addButton = false, sortOptions, filterOptions } = props;
-
+export default function DisplayControl({
+  title,
+  addButton = false,
+  sortOptions,
+  filterOptions,
+  filterFunction,
+  sortFunction
+}) {
   return (
     <DisplayControlWrapper>
       <DisplayControlTitle>
@@ -14,8 +19,17 @@ export default function DisplayControl(props) {
       </DisplayControlTitle>
 
       <DropdownsWrapper>
-        <Dropdown text="Ordenar por" options={sortOptions} />
-        <Dropdown text="Filtrar por" options={filterOptions} />
+        <Dropdown
+          text="Ordenar por"
+          options={sortOptions}
+          onChange={sortFunction}
+        />
+
+        <Dropdown
+          text="Filtrar por"
+          options={filterOptions}
+          onChange={filterFunction}
+        />
       </DropdownsWrapper>
     </DisplayControlWrapper>
   );
