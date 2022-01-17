@@ -45,7 +45,7 @@ export function moviesList(movies) {
         `Classificação: ${Classificacao_Indicativa}`,
       ],
       alertInfo: Lancamento ? '' : 'Ainda não foi lançado',
-      rating: Classificacao_Indicativa,
+      parentalRating: Classificacao_Indicativa,
       visible: true
     };
   });

@@ -203,7 +203,8 @@ export default function ClientsPageContent() {
       >
         <InputField
           label="Nome"
-          onChange={setClientName} value={clientName}
+          onChange={setClientName}
+          value={clientName}
         />
 
         <InputField
