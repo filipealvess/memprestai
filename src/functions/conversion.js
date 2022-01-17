@@ -26,7 +26,9 @@ export function clientsList(clients) {
         `CPF: ${CPF}`,
         `Nascimento: ${formatDate(Data_Nascimento)}`,
       ],
-      alertInfo: ''
+      alertInfo: '',
+      birthDate: formatDate(Data_Nascimento),
+      visible: true
     };
   });
 }
