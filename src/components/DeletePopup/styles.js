@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const DeletePopupWrapper = styled.div`
   display: flex;
@@ -10,7 +10,9 @@ const DeletePopupWrapper = styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.25);
-  `;
+
+  ${({ visible }) => !visible && css`display: none;`}
+`;
 
 export const DeletePopupContent = styled.section`
   width: 90%;

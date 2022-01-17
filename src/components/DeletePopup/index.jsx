@@ -11,20 +11,20 @@ import DeletePopupWrapper, {
   Title
 } from './styles';
 
-export default function DeletePopup({ message }) {
+export default function DeletePopup({ message, visible, deleteFunction, cancelFunction }) {
   return (
-    <DeletePopupWrapper>
+    <DeletePopupWrapper visible={visible}>
       <DeletePopupContent>
         <Header>
           <Title>Excluir item</Title>
-          <Close><XCircle /></Close>
+          <Close onClick={cancelFunction}><XCircle /></Close>
         </Header>
 
         <Message>{message}</Message>
 
         <Options>
-          <Cancel>Cancelar</Cancel>
-          <Delete>Excluir</Delete>
+          <Cancel onClick={cancelFunction}>Cancelar</Cancel>
+          <Delete onClick={deleteFunction}>Excluir</Delete>
         </Options>
       </DeletePopupContent>
     </DeletePopupWrapper>

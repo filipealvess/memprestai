@@ -6,10 +6,10 @@ import { leasesList } from '../../functions/conversion';
 import { useClients } from '../../context/ClientsContext';
 import { useMovies } from '../../context/MoviesContext';
 
-export default function LeasesGrid({ manipulatedLeases, updateLeases }) {
+export default function LeasesGrid({ manipulatedLeases, updateLeases, showPopup }) {
   const { leases, setLeases } = useLeases();
-  const { clients, setClients } = useClients();
-  const { movies, setMovies } = useMovies();
+  const { clients } = useClients();
+  const { movies } = useMovies();
   const [ localLeases, setLocalLeases ] = useState([]);
 
   useEffect(() => {
@@ -27,6 +27,10 @@ export default function LeasesGrid({ manipulatedLeases, updateLeases }) {
     setLeases(updatedLeaseList);
   }
 
+  function handleDeleteLease(leaseId) {
+    showPopup(() => deleteLease(leaseId));
+  }
+
   return (
     <LeasesGridWrapper>
       {
@@ -38,7 +42,7 @@ export default function LeasesGrid({ manipulatedLeases, updateLeases }) {
             start={start}
             end={end}
             visible={visible}
-            onDelete={() => deleteLease(id)}
+            onDelete={() => handleDeleteLease(id)}
           />
         ))
       }

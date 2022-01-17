@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DisplayControl from '../../components/DisplayControl';
 import Header from '../../components/Header';
 import HeroSection from '../../components/HeroSection';
@@ -9,9 +9,12 @@ import LeasesProvider from '../../context/LeasesContext';
 import MoviesProvider from '../../context/MoviesContext';
 import sortOptions from '../../functions/sort';
 import filterOptions from '../../functions/filter';
+import DeletePopup from '../../components/DeletePopup';
 
 export default function HomePage() {
   const [leases, setLeases] = useState([]);
+  const [deletePopupIsVisible, setDeletePopupIsVisible] = useState(false);
+  const [deleteFunction, setDeleteFunction] = useState(null);
   
   function sortLeases(optionName) {
     sortOptions.leaseOptions.forEach(({option, action}) => {
@@ -33,6 +36,20 @@ export default function HomePage() {
     setLeases(leases);
   }
 
+  function handleDeleteLease(deleteLeaseFunction) {
+    const newDeleteFunction = () => {
+      deleteLeaseFunction();
+      hidePopup();
+    }
+
+    setDeleteFunction(() => newDeleteFunction);
+    setDeletePopupIsVisible(true);
+  }
+
+  function hidePopup() {
+    setDeletePopupIsVisible(false);
+  }
+
   return (
     <React.Fragment>
       <LeasesProvider>
@@ -51,8 +68,19 @@ export default function HomePage() {
                 sortFunction={sortLeases}
               />
 
-              <LeasesGrid manipulatedLeases={leases} updateLeases={updateLeases} />
+              <LeasesGrid
+                manipulatedLeases={leases}
+                updateLeases={updateLeases}
+                showPopup={handleDeleteLease}
+              />
             </ContentWrapper>
+
+            <DeletePopup
+              message="Tem certeza que deseja excluir permanentemente essa locação?"
+              visible={deletePopupIsVisible}
+              deleteFunction={deleteFunction}
+              cancelFunction={hidePopup}
+            />
           </MoviesProvider>
         </ClientsProvider>
       </LeasesProvider>
