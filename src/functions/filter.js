@@ -38,8 +38,57 @@ const leaseOptions = [
   }
 ];
 
+const clientOptions = [
+  {
+    option: 'Filtrar por',
+    action: (clients) => clients.map(client => {
+      client.visible = true;
+      return client;
+    })
+  },
+  {
+    option: 'Com locação',
+    action: (clients, leases) => {
+      const result = clients.map(client => {
+        client.visible = false;
+        return client;
+      });
+
+      leases.forEach(lease => {
+        clients.forEach((client, index) => {
+          if (lease.ID_Cliente === client.id) {
+            result[index].visible = true;
+          }
+        });
+      });
+
+      return result;
+    }
+  },
+  {
+    option: 'Sem locação',
+    action: (clients, leases) => {
+      const result = clients.map(client => {
+        client.visible = true;
+        return client;
+      });
+
+      leases.forEach(lease => {
+        clients.forEach((client, index) => {
+          if (lease.ID_Cliente === client.id) {
+            result[index].visible = false;
+          }
+        });
+      });
+
+      return result;
+    }
+  },
+];
+
 const filterOptions = {
   leaseOptions,
+  clientOptions
 };
 
 export default filterOptions;
