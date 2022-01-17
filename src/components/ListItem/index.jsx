@@ -9,7 +9,13 @@ import ListItemWrapper, {
   Title
 } from './styles';
 
-export default function ListItem({ title, infos, alertInfo, visible }) {
+export default function ListItem({
+  title,
+  infos,
+  alertInfo,
+  visible,
+  onDelete
+}) {
   return (
     <ListItemWrapper visible={visible}>
       <div>
@@ -20,8 +26,12 @@ export default function ListItem({ title, infos, alertInfo, visible }) {
       {alertInfo && <AlertInfo>{alertInfo}</AlertInfo>}
 
       <OptionsWrapper>
-        <Option><Edit3 color={appTheme.colors.yellow} size="20" /></Option>
-        <Option><Trash color={appTheme.colors.red} size="20" /></Option>
+        <Option>
+          <Edit3 color={appTheme.colors.yellow} size="20" />
+        </Option>
+        <Option onClick={onDelete}>
+          <Trash color={appTheme.colors.red} size="20" />
+        </Option>
       </OptionsWrapper>
     </ListItemWrapper>
   );

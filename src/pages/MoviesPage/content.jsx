@@ -34,6 +34,12 @@ export default function MoviesPageContent() {
     });
   }
 
+  function deleteMovie(movieId) {
+    const updatedMovieList = movies.filter(movie => movie.Id !== movieId);
+
+    setMovies(updatedMovieList);
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -48,7 +54,10 @@ export default function MoviesPageContent() {
           filterFunction={filterMovies}
         />
 
-        <List items={localMovies} />
+        <List
+          items={localMovies}
+          onDelete={deleteMovie}
+        />
       </ContentWrapper>
     </React.Fragment>
   );
