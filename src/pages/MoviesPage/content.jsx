@@ -7,10 +7,13 @@ import { moviesList } from '../../functions/conversion';
 import { useMovies } from '../../context/MoviesContext';
 import sortOptions from '../../functions/sort';
 import filterOptions from '../../functions/filter';
+import DeletePopup from '../../components/DeletePopup';
 
 export default function MoviesPageContent() {
   const { movies, setMovies } = useMovies();
   const [ localMovies, setLocalMovies ] = useState([]);
+  const [ deletePopupIsVisible, setDeletePopupIsVisible ] = useState(false);
+  const [ deleteFunction, setDeleteFunction ] = useState(null);
 
   useEffect(() => {
     if (movies.length > 0) {
@@ -40,6 +43,20 @@ export default function MoviesPageContent() {
     setMovies(updatedMovieList);
   }
 
+  function handleDeleteMovie(movieId) {
+    const newDeleteFunction = () => {
+      hideDeletePopup();
+      deleteMovie(movieId);
+    };
+
+    setDeletePopupIsVisible(true);
+    setDeleteFunction(() => newDeleteFunction);
+  }
+
+  function hideDeletePopup() {
+    setDeletePopupIsVisible(false);
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -56,9 +73,16 @@ export default function MoviesPageContent() {
 
         <List
           items={localMovies}
-          onDelete={deleteMovie}
+          onDelete={handleDeleteMovie}
         />
       </ContentWrapper>
+
+      <DeletePopup
+        visible={deletePopupIsVisible}
+        message="Tem certeza que deseja excluir permanentemente esse filme?"
+        cancelFunction={hideDeletePopup}
+        deleteFunction={deleteFunction}
+      />
     </React.Fragment>
   );
 }
