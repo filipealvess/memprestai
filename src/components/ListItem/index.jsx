@@ -9,9 +9,9 @@ import ListItemWrapper, {
   Title
 } from './styles';
 
-export default function ListItem({ title, infos, alertInfo }) {
+export default function ListItem({ title, infos, alertInfo, visible }) {
   return (
-    <ListItemWrapper>
+    <ListItemWrapper visible={visible}>
       <div>
         <Title>{title}</Title>
         {infos.map((info, index) => <InfoItem key={index}>{info}</InfoItem>)}

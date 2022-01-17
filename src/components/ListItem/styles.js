@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const ListItemWrapper = styled.li`
   display: flex;
@@ -8,6 +8,8 @@ const ListItemWrapper = styled.li`
   padding: 15px 20px;
   border-radius: 5px;
   background-color: ${({ theme }) => theme.colors.white};
+
+  ${({visible}) => visible === false && css`display: none;`}
 
   & + & { margin-top: 15px; }
   

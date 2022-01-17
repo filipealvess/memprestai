@@ -4,19 +4,37 @@ import Header from '../../components/Header';
 import DisplayControl from '../../components/DisplayControl';
 import List from '../../components/List';
 import { useClients } from '../../context/ClientsContext';
+import { useLeases } from '../../context/LeasesContext';
 import { clientsList } from '../../functions/conversion';
+import sortOptions from '../../functions/sort';
+import filterOptions from '../../functions/filter';
 
 export default function ClientsPageContent() {
   const { clients, setClients } = useClients();
+  const { leases } = useLeases();
   const [ localClients, setLocalClients ] = useState([]);
-  const sortOptions = ['Ordenar por', 'Nome', 'Nascimento'];
-  const filterOptions = ['Filtrar por', 'Com locação', 'Sem locação'];
 
   useEffect(() => {
     if (clients.length > 0) {
       setLocalClients(clientsList(clients));
     }
   }, [clients]);
+
+  function sortClients(optionName) {
+    sortOptions.clientOptions.forEach(({option, action}) => {
+      if (optionName === option) {
+        setLocalClients(action(localClients));
+      }
+    });
+  }
+  
+  function filterClients(optionName) {
+    filterOptions.clientOptions.forEach(({option, action}) => {
+      if (optionName === option) {
+        setLocalClients(action(localClients, leases));
+      }
+    });
+  }
 
   return (
     <React.Fragment>
@@ -26,8 +44,10 @@ export default function ClientsPageContent() {
         <DisplayControl
           title="Todos os clientes"
           addButton
-          sortOptions={sortOptions}
-          filterOptions={filterOptions}
+          sortOptions={sortOptions.clientOptions}
+          filterOptions={filterOptions.clientOptions}
+          filterFunction={filterClients}
+          sortFunction={sortClients}
         />
 
         <List items={localClients} />

@@ -5,12 +5,13 @@ import ListWrapper from './styles';
 export default function List({ items }) {
   return (
     <ListWrapper>
-      {items.map(({id, title, infos, alertInfo}) => (
+      {items.map(({id, title, infos, alertInfo, visible}) => (
         <ListItem
           key={id}
           title={title}
           infos={infos}
           alertInfo={alertInfo}
+          visible={visible}
         />
       ))}
     </ListWrapper>

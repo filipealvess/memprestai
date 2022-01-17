@@ -1,11 +1,14 @@
 import React from 'react';
 import ClientsPageContent from './content';
 import ClientsContext from '../../context/ClientsContext';
+import LeasesContext from '../../context/LeasesContext';
 
 export default function ClientsPage() {
   return (
-    <ClientsContext>
-      <ClientsPageContent />
-    </ClientsContext>
+    <LeasesContext>
+      <ClientsContext>
+        <ClientsPageContent />
+      </ClientsContext>
+    </LeasesContext>
   );
 }
