@@ -5,18 +5,34 @@ import DisplayControl from '../../components/DisplayControl';
 import List from '../../components/List';
 import { moviesList } from '../../functions/conversion';
 import { useMovies } from '../../context/MoviesContext';
+import sortOptions from '../../functions/sort';
+import filterOptions from '../../functions/filter';
 
 export default function MoviesPageContent() {
   const { movies, setMovies } = useMovies();
   const [ localMovies, setLocalMovies ] = useState([]);
-  const sortOptions = ['Ordenar por', 'Título', 'Classificação'];
-  const filterOptions = ['Filtrar por', 'Lançados', 'Em espera'];
 
   useEffect(() => {
     if (movies.length > 0) {
       setLocalMovies(moviesList(movies));
     }
   }, [movies]);
+
+  function sortMovies(optionName) {
+    sortOptions.movieOptions.forEach(({option, action}) => {
+      if (optionName === option) {
+        setLocalMovies(action(localMovies));
+      }
+    });
+  }
+  
+  function filterMovies(optionName) {
+    filterOptions.movieOptions.forEach(({option, action}) => {
+      if (optionName === option) {
+        setLocalMovies(action(localMovies));
+      }
+    });
+  }
 
   return (
     <React.Fragment>
@@ -26,8 +42,10 @@ export default function MoviesPageContent() {
         <DisplayControl
           title="Todos os filmes"
           addButton
-          sortOptions={sortOptions}
-          filterOptions={filterOptions}
+          sortOptions={sortOptions.movieOptions}
+          filterOptions={filterOptions.movieOptions}
+          sortFunction={sortMovies}
+          filterFunction={filterMovies}
         />
 
         <List items={localMovies} />
