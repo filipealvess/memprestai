@@ -2,7 +2,7 @@ import React from 'react';
 import ListItem from '../ListItem';
 import ListWrapper from './styles';
 
-export default function List({ items, onDelete }) {
+export default function List({ items, onDelete, onUpdate }) {
   return (
     <ListWrapper>
       {items.map(({id, title, infos, alertInfo, visible}) => (
@@ -13,6 +13,7 @@ export default function List({ items, onDelete }) {
           alertInfo={alertInfo}
           visible={visible}
           onDelete={() => onDelete(id)}
+          onUpdate={() => onUpdate(id)}
         />
       ))}
     </ListWrapper>

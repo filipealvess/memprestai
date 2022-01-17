@@ -28,6 +28,7 @@ export function clientsList(clients) {
       ],
       alertInfo: '',
       birthDate: formatDate(Data_Nascimento),
+      cpf: CPF,
       visible: true
     };
   });

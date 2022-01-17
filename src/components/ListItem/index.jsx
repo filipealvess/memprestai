@@ -14,7 +14,8 @@ export default function ListItem({
   infos,
   alertInfo,
   visible,
-  onDelete
+  onDelete,
+  onUpdate
 }) {
   return (
     <ListItemWrapper visible={visible}>
@@ -26,7 +27,7 @@ export default function ListItem({
       {alertInfo && <AlertInfo>{alertInfo}</AlertInfo>}
 
       <OptionsWrapper>
-        <Option>
+        <Option onClick={onUpdate}>
           <Edit3 color={appTheme.colors.yellow} size="20" />
         </Option>
         <Option onClick={onDelete}>

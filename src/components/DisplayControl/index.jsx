@@ -9,13 +9,14 @@ export default function DisplayControl({
   sortOptions,
   filterOptions,
   filterFunction,
-  sortFunction
+  sortFunction,
+  onAdd
 }) {
   return (
     <DisplayControlWrapper>
       <DisplayControlTitle>
         {title}
-        {addButton && <AddButton link="/" />}
+        {addButton && <AddButton onAdd={onAdd} />}
       </DisplayControlTitle>
 
       <DropdownsWrapper>

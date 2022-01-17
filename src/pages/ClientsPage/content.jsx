@@ -4,6 +4,9 @@ import Header from '../../components/Header';
 import DisplayControl from '../../components/DisplayControl';
 import List from '../../components/List';
 import DeletePopup from '../../components/DeletePopup';
+import FormDrawer from '../../components/FormDrawer';
+import InputField from '../../components/InputField';
+import PrimaryButton from '../../components/PrimaryButton';
 import { useClients } from '../../context/ClientsContext';
 import { useLeases } from '../../context/LeasesContext';
 import { clientsList } from '../../functions/conversion';
@@ -16,6 +19,11 @@ export default function ClientsPageContent() {
   const [ localClients, setLocalClients ] = useState([]);
   const [ deletePopupIsVisible, setDeletePopupIsVisible ] = useState(false);
   const [ deleteFunction, setDeleteFunction ] = useState(null);
+  const [ formDrawerIsVisible, setFormDrawerIsVisible ] = useState(false);
+  const [ formDrawerTitle, setFormDrawerTitle ] = useState('Adicionar cliente');
+  const [ clientName, setClientName ] = useState('');
+  const [ clientCPF, setClientCPF ] = useState('');
+  const [ clientBirthDate, setClientBirthDate ] = useState('');
 
   useEffect(() => {
     if (clients.length > 0) {
@@ -45,7 +53,7 @@ export default function ClientsPageContent() {
     setClients(updatedClientList);
   }
 
-  function handleDeleteClient(clientId) {
+  function handleClientDelete(clientId) {
     const newDeleteFunction = () => {
       hideDeletePopup();
       deleteClient(clientId);
@@ -55,8 +63,71 @@ export default function ClientsPageContent() {
     setDeleteFunction(() => newDeleteFunction);
   }
 
+  function handleClientAdd() {
+    showFormDrawer();
+  }
+
+  function formatDate(date, format = 'y-m-d') {
+    return format === 'y-m-d'
+      ? date.split('/').reverse().join('-')
+      : date.split('-').reverse().join('/');
+  }
+
+  function formatCPF(cpf) {
+    const formatedCPF = cpf.replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1');
+      
+    setClientCPF(formatedCPF);
+  }
+
+  function addClient() {
+    const clientIds = localClients.map(client => client.id).sort((a, b) => a - b);
+    const biggerId = clientIds[clientIds.length - 1];
+
+    const newClient = {
+      id: biggerId + 1,
+      title: clientName,
+      birthDate: formatDate(clientBirthDate, 'd/m/y'),
+      infos: [
+        `CPF: ${clientCPF}`,
+        `Nascimento: ${formatDate(clientBirthDate, 'd/m/y')}`
+      ],
+      alertInfo: '',
+      visible: true
+    };
+
+    setLocalClients([newClient, ...localClients]);
+  }
+
   function hideDeletePopup() {
     setDeletePopupIsVisible(false);
+  }
+
+  function showFormDrawer() {
+    setFormDrawerIsVisible(true);
+  }
+
+  function restoreDefaultState() {
+    setClientBirthDate('');
+    setClientCPF('');
+    setClientName('');
+    setFormDrawerTitle('Adicionar cliente');
+  }
+
+  function hideFormDrawer() {
+    restoreDefaultState();
+    setFormDrawerIsVisible(false);
+  }
+
+  function handleFormSubmit() {
+    if (formDrawerTitle === 'Adicionar cliente') {
+      addClient();
+    }
+
+    hideFormDrawer();
   }
 
   return (
@@ -71,11 +142,13 @@ export default function ClientsPageContent() {
           filterOptions={filterOptions.clientOptions}
           filterFunction={filterClients}
           sortFunction={sortClients}
+          onAdd={handleClientAdd}
         />
 
         <List
           items={localClients}
-          onDelete={handleDeleteClient}
+          onDelete={handleClientDelete}
+          onUpdate={() => {}}
         />
       </ContentWrapper>
 
@@ -85,6 +158,34 @@ export default function ClientsPageContent() {
         cancelFunction={hideDeletePopup}
         deleteFunction={deleteFunction}
       />
+
+      <FormDrawer
+        title={formDrawerTitle}
+        visible={formDrawerIsVisible}
+        close={hideFormDrawer}
+      >
+        <InputField
+          label="Nome"
+          onChange={setClientName} value={clientName}
+        />
+
+        <InputField
+          label="CPF"
+          onChange={formatCPF}
+          value={clientCPF}
+        />
+
+        <InputField
+          label="Data de nascimento"
+          onChange={setClientBirthDate}
+          value={clientBirthDate}
+          type="date"
+        />
+
+        <PrimaryButton onClick={handleFormSubmit}>
+          {formDrawerTitle}
+        </PrimaryButton>
+      </FormDrawer>
     </React.Fragment>
   );
 }
