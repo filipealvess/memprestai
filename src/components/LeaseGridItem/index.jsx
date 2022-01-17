@@ -1,6 +1,12 @@
 import React from 'react';
 import { Edit3, Trash } from 'react-feather';
-import LeaseGridItemWrapper, { Option, Options, OptionsDivider, Title } from './styles';
+import LeaseGridItemWrapper, {
+  Infos,
+  Option,
+  Options,
+  OptionsDivider,
+  Title
+} from './styles';
 
 export default function LeaseGridItem({ start, end, movie, client, visible }) {
   return (
@@ -9,9 +15,10 @@ export default function LeaseGridItem({ start, end, movie, client, visible }) {
         De <span>{start}</span> até <span>{end}</span>
       </Title>
 
-      <p>Filme: {movie}</p>
-
-      <p>Cliente: {client}</p>
+      <Infos>
+        <p>Filme: {movie}</p>
+        <p>Cliente: {client}</p>
+      </Infos>
 
       <Options>
         <Option><Edit3 /></Option>

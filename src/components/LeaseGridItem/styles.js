@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 
 const LeaseGridItemWrapper = styled.article`
+  display: flex;
+  flex-direction: column;
   padding: 15px;
   border-radius: 5px;
   background-color: ${({ theme }) => theme.colors.white};
@@ -19,6 +21,10 @@ export const Title = styled.p`
   & ~ p {
     margin-bottom: 5px;
   }
+`;
+
+export const Infos = styled.div`
+  flex-grow: 1;
 `;
 
 export const Options = styled.div`
