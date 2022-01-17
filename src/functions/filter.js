@@ -86,9 +86,34 @@ const clientOptions = [
   },
 ];
 
+const movieOptions = [
+  {
+    option: 'Filtrar por',
+    action: (movies) => movies.map(movie => {
+      movie.visible = true;
+      return movie;
+    })
+  },
+  {
+    option: 'Lançados',
+    action: (movies) => movies.map(movie => {
+      movie.visible = movie.alertInfo === '';
+      return movie;
+    })
+  },
+  {
+    option: 'Em espera',
+    action: (movies) => movies.map(movie => {
+      movie.visible = movie.alertInfo !== '';
+      return movie;
+    })
+  }
+];
+
 const filterOptions = {
   leaseOptions,
-  clientOptions
+  clientOptions,
+  movieOptions
 };
 
 export default filterOptions;
