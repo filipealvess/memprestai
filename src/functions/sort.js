@@ -119,11 +119,11 @@ const movieOptions = [
     option: 'Classificação',
     action: (movies) => {
       const result = [];
-      const ratings = movies.map(({id, rating}) => ({id, rating}));
+      const ratings = movies.map(({id, parentalRating}) => ({id, parentalRating}));
 
       for (let last = 0; last < ratings.length; last++) {
         for (let current = last + 1; current < ratings.length; current++) {
-          if (ratings[last].rating < ratings[current].rating) {
+          if (ratings[last].parentalRating > ratings[current].parentalRating) { 
             const temp = ratings[last];
         
             ratings[last] = ratings[current];
